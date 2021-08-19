@@ -4,14 +4,14 @@ class Player
   @@player_number = 1
   @@taken_markers = []
 
-  attr_reader :name, :marker
+  attr_reader :name, :marker, :my_positions
 
   def initialize(board_size)
     @my_positions = {
       rows: Array.new(board_size, 0),
       columns: Array.new(board_size, 0),
-      diag: Array.new(1, 0),
-      anti_diag: Array.new(1, 0)
+      diag: 0,
+      anti_diag: 0
     }
 
     puts "Player #{@@player_number}, please enter your name: "
@@ -26,5 +26,15 @@ class Player
     @@taken_markers << @marker
 
     @@player_number += 1
+  end
+
+  def update_my_positions(row, column, board_size)
+    @my_positions[:rows][row] += 1
+    @my_positions[:columns][column] += 1
+    if row == column
+      @my_positions[:diag] += 1
+    elsif row + column == board_size - 1
+      @my_positions[:anti_diag] += 1
+    end
   end
 end

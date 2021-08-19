@@ -18,9 +18,9 @@ class Board
     column = board_position % @board_size
 
     if @positions[row][column].nil?
-      @total_moves += 1
       @positions[row][column] = player.marker
-      [row, column]
+      player.update_my_positions(row, column, @board_size)
+      true
     else
       false
     end
@@ -28,9 +28,5 @@ class Board
 
   def draw_board
     p @positions
-  end
-
-  def check_winner(row, column)
-    puts 'Checking winner'
   end
 end
