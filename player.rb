@@ -3,9 +3,17 @@
 class Player
   @@player_number = 1
   @@taken_markers = []
+
   attr_reader :name, :marker
 
-  def initialize
+  def initialize(board_size)
+    @my_positions = {
+      rows: Array.new(board_size, 0),
+      columns: Array.new(board_size, 0),
+      diag: Array.new(1, 0),
+      anti_diag: Array.new(1, 0)
+    }
+
     puts "Player #{@@player_number}, please enter your name: "
     @name = gets.chomp
 
