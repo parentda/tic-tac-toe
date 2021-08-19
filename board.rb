@@ -5,6 +5,7 @@ class Board
 
   def initialize(board_size)
     @board_size = board_size
+    @indentation = 8
     @board_limits = [0, @board_size**2 - 1]
     @positions = Array.new(@board_size) { Array.new(@board_size) }
   end
@@ -27,6 +28,18 @@ class Board
   end
 
   def draw_board
-    p @positions
+    placeholder = 1
+    string = ' ' * @indentation
+    @positions.each do |row|
+      string += "#{'+---' * @board_size}+\n#{' ' * @indentation}"
+      row.each do |item|
+        val = item || placeholder
+        string += "| #{val} "
+        placeholder += 1
+      end
+      string += "|\n#{' ' * @indentation}"
+    end
+    string += "#{'+---' * @board_size}+"
+    string
   end
 end
