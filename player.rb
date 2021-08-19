@@ -13,19 +13,27 @@ class Player
       diag: 0,
       anti_diag: 0
     }
-
-    puts "Player #{@@player_number}, please enter your name: "
-    @name = gets.chomp
-
-    puts "Hello #{@name}, please enter a single character to serve as a marker for your chosen spaces: "
-    @marker = gets.chomp
-    until @marker.length == 1 && !@@taken_markers.include?(@marker)
-      puts 'Please re-enter your marker choice and ensure that it is a single character that is not already being used by another player: '
-      @marker = gets.chomp
-    end
-    @@taken_markers << @marker
-
+    @name = parse_name
+    @marker = parse_marker
     @@player_number += 1
+  end
+
+  def parse_name
+    puts "Player #{@@player_number}, please enter your name: "
+    gets.chomp
+  end
+
+  def parse_marker
+    puts "Hello #{@name}, please enter a single character to serve as a marker for your chosen spaces: "
+    loop do
+      marker = gets.chomp
+      break if marker.length == 1 && !@@taken_markers.include?(marker)
+
+      puts 'Please re-enter your marker choice and ensure that it is a single character that is not already in use: '
+    end
+    puts "Thank you!\n\n"
+    @@taken_markers << @marker
+    marker
   end
 
   def update_my_positions(row, column, board_size)
