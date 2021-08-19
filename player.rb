@@ -45,4 +45,8 @@ class Player
       @my_positions[:anti_diag] += 1
     end
   end
+
+  def check_winner
+    @my_positions.values.flatten.include?(@board_size)
+  end
 end

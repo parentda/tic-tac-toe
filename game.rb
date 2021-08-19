@@ -11,8 +11,4 @@ class Game
   end
 
   def play; end
-
-  def check_winner(player)
-    player.my_positions.values.flatten.include?(@board_size)
-  end
 end
