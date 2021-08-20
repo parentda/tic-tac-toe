@@ -5,7 +5,7 @@ class Board
 
   def initialize(board_size)
     @board_size = board_size
-    @indentation = 8
+    @indentation = ' ' * 8
     @board_limits = [0, @board_size**2 - 1]
     @positions = Array.new(@board_size) { Array.new(@board_size) }
   end
@@ -20,8 +20,7 @@ class Board
 
     if @positions[row][column].nil?
       @positions[row][column] = player.marker
-      player.update_my_positions(row, column, @board_size)
-      true
+      [row, column]
     else
       false
     end
@@ -29,15 +28,15 @@ class Board
 
   def draw_board
     placeholder = 1
-    string = ' ' * @indentation
+    string = @indentation
     @positions.each do |row|
-      string += "#{'+---' * @board_size}+\n#{' ' * @indentation}"
+      string += "#{'+---' * @board_size}+\n#{@indentation}"
       row.each do |item|
         val = item || placeholder
         string += "| #{val} "
         placeholder += 1
       end
-      string += "|\n#{' ' * @indentation}"
+      string += "|\n#{@indentation}"
     end
     string += "#{'+---' * @board_size}+"
     string

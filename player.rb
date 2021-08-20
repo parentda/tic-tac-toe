@@ -18,6 +18,10 @@ class Player
     @@player_number += 1
   end
 
+  def self.taken_markers
+    @@taken_markers
+  end
+
   def parse_name
     print "Player #{@@player_number}, please enter your name: "
     gets.chomp
@@ -25,6 +29,7 @@ class Player
 
   def parse_marker
     print "Hello #{@name}, please enter a single character to serve as a marker for your chosen spaces: "
+    marker = ''
     loop do
       marker = gets.chomp
       break if marker.length == 1 && !@@taken_markers.include?(marker)
@@ -32,7 +37,7 @@ class Player
       print 'Please re-enter your marker choice and ensure that it is a single character that is not already in use: '
     end
     puts "Thank you!\n\n"
-    @@taken_markers << @marker
+    @@taken_markers << marker
     marker
   end
 
