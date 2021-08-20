@@ -18,10 +18,6 @@ class Player
     @@player_number += 1
   end
 
-  def self.taken_markers
-    @@taken_markers
-  end
-
   def parse_name
     print "Player #{@@player_number}, please enter your name: "
     gets.chomp
