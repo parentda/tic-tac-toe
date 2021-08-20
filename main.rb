@@ -11,6 +11,7 @@ end
 
 loop do
   game = Game.new(2, 3)
+  game.setup
   game.play
   break unless game_restart
 
