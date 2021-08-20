@@ -29,9 +29,7 @@ class Player
 
   def parse_marker
     print "Hello #{@name}, please enter a single character to serve as a marker for your chosen spaces: "
-    marker = ''
-    loop do
-      marker = gets.chomp
+    while (marker = gets.chomp)
       break if marker.length == 1 && !@@taken_markers.include?(marker)
 
       print 'Please re-enter your marker choice and ensure that it is a single character that is not already in use: '
@@ -51,7 +49,12 @@ class Player
     end
   end
 
-  def check_winner
-    @my_positions.values.flatten.include?(@board_size)
+  def check_winner(board_size)
+    @my_positions.values.flatten.include?(board_size)
+  end
+
+  def self.reset
+    @@player_number = 1
+    @@taken_markers = []
   end
 end

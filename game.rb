@@ -6,40 +6,46 @@ class Game
   def initialize(num_players, board_size)
     @num_players = num_players
     @board_size = board_size
+    @board_limits = [1, @board_size**2]
     @min_moves = @board_size * 2 - 1
+    @max_moves = @board_size**2
     @board = Board.new(@board_size)
     intro_message
     @players = Array.new(@num_players) { Player.new(@board_size) }
     @current_player_index = 0
     @total_moves = 0
-    @game_over = false
+    @game_win = false
   end
 
   def play
     game_start_message
-    loop do
+    while @total_moves < @max_moves
       current_player = @players[@current_player_index]
       next_turn_message(current_player)
-      user_move_choice = user_move
-      row_col = @board.validate_move(current_player, user_move_choice)
+      row_col = user_move(current_player)
       current_player.update_my_positions(row_col[0], row_col[1], @board_size)
+      puts "\n#{@board.draw_board}\n\n"
 
       @total_moves += 1
-      @game_over = current_player.check_winner if @total_moves > @min_moves
-      break if @game_over == true
+      @game_win = current_player.check_winner(@board_size) if @total_moves >=
+        @min_moves
+      break game_win_message(current_player) if @game_win == true
 
       @current_player_index = (@current_player_index + 1) % @num_players
     end
-    game_over_message(@players[@current_player_index])
+    game_tie_message unless @game_win
   end
 
-  def user_move
+  def user_move(player)
     while (move = gets.chomp.to_i)
-      break if move.positive?
+      row_col = @board.validate_move(player, move - 1) if move.between?(
+        @board_limits[0],
+        @board_limits[1]
+      )
+      break row_col if row_col
 
-      invalid_selection_message
+      invalid_selection_message(player)
     end
-    move
   end
 
   def intro_message
@@ -70,14 +76,18 @@ class Game
   end
 
   def next_turn_message(player)
-    puts "#{player.name}, please select an unmarked space: "
+    print "#{player.name}, please select an unmarked space: "
   end
 
-  def game_over_message(player)
+  def game_win_message(player)
     puts "Congratulations #{player.name}, you have won the game!"
   end
 
+  def game_tie_message
+    puts 'The game ends in a draw!'
+  end
+
   def invalid_selection_message(player)
-    puts "Sorry #{player.name}, that is not a valid selection. Please ensure you select an unmarked space: "
+    print "Sorry #{player.name}, that is not a valid selection. Please ensure you select an unmarked space: "
   end
 end

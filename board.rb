@@ -6,15 +6,10 @@ class Board
   def initialize(board_size)
     @board_size = board_size
     @indentation = ' ' * 8
-    @board_limits = [0, @board_size**2 - 1]
     @positions = Array.new(@board_size) { Array.new(@board_size) }
   end
 
   def validate_move(player, board_position)
-    unless board_position.between?(@board_limits[0], @board_limits[1])
-      return false
-    end
-
     row = board_position / @board_size
     column = board_position % @board_size
 
@@ -32,13 +27,11 @@ class Board
     @positions.each do |row|
       string += "#{'+---' * @board_size}+\n#{@indentation}"
       row.each do |item|
-        val = item || placeholder
-        string += "| #{val} "
+        string += item ? "| \e[1m#{item}\e[0m " : "| #{placeholder} "
         placeholder += 1
       end
       string += "|\n#{@indentation}"
     end
     string += "#{'+---' * @board_size}+"
-    string
   end
 end
