@@ -42,11 +42,8 @@ class Player
   def update_my_positions(row, column, board_size)
     @my_positions[:rows][row] += 1
     @my_positions[:columns][column] += 1
-    if row == column
-      @my_positions[:diag] += 1
-    elsif row + column == board_size - 1
-      @my_positions[:anti_diag] += 1
-    end
+    @my_positions[:diag] += 1 if row == column
+    @my_positions[:anti_diag] += 1 if row + column == board_size - 1
   end
 
   def check_winner(board_size)

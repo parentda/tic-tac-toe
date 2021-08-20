@@ -25,20 +25,7 @@ class Game
 
   def play
     game_start_message
-    while @total_moves < @max_moves
-      current_player = @players[@current_player_index]
-      next_turn_message(current_player)
-      row_col = user_move(current_player)
-      current_player.update_my_positions(row_col[0], row_col[1], @board_size)
-      puts "\n#{@board.draw_board}\n\n"
-
-      @total_moves += 1
-      @game_win = current_player.check_winner(@board_size) if @total_moves >=
-        @min_moves
-      break game_win_message(current_player) if @game_win == true
-
-      @current_player_index = (@current_player_index + 1) % @num_players
-    end
+    user_turn while @total_moves < @max_moves && !@game_win
     game_tie_message unless @game_win
   end
 
@@ -52,5 +39,20 @@ class Game
 
       invalid_selection_message(player)
     end
+  end
+
+  def user_turn
+    current_player = @players[@current_player_index]
+    next_turn_message(current_player)
+    row_col = user_move(current_player)
+    current_player.update_my_positions(row_col[0], row_col[1], @board_size)
+    puts "\n#{@board.draw_board}\n\n"
+
+    @total_moves += 1
+    @game_win = current_player.check_winner(@board_size) if @total_moves >=
+      @min_moves
+    return game_win_message(current_player) if @game_win == true
+
+    @current_player_index = (@current_player_index + 1) % @num_players
   end
 end
