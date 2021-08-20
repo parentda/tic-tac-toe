@@ -10,6 +10,7 @@ class Game
     @min_moves = @board_size * 2 - 1
     @max_moves = @board_size**2
     @board = Board.new(@board_size)
+    segment_break_message
     intro_message
     @players = Array.new(@num_players) { Player.new(@board_size) }
     @current_player_index = 0
@@ -80,14 +81,18 @@ class Game
   end
 
   def game_win_message(player)
-    puts "Congratulations #{player.name}, you have won the game!"
+    puts "Congratulations #{player.name}, you have won the game!\n\n"
   end
 
   def game_tie_message
-    puts 'The game ends in a draw!'
+    puts "The game ends in a draw!\n\n"
   end
 
   def invalid_selection_message(player)
     print "Sorry #{player.name}, that is not a valid selection. Please ensure you select an unmarked space: "
+  end
+
+  def segment_break_message
+    puts "\n#{'+---' * 30}+"
   end
 end

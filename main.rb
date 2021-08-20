@@ -4,7 +4,15 @@ require_relative 'board'
 require_relative 'game'
 require_relative 'player'
 
-# puts "Enter 1 to start a new game. Enter any other key to quit."
-# allow user to enter a value to quit at any time? (just use Ctrl + C)
+def game_restart
+  print 'Enter 1 to start a new game. Enter any other key to quit: '
+  gets.chomp.to_i == 1
+end
 
-# game = Game.new(2, 3)
+loop do
+  game = Game.new(2, 3)
+  game.play
+  break unless game_restart
+
+  Player.reset
+end
