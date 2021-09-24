@@ -13,17 +13,17 @@ class Player
       diag: 0,
       anti_diag: 0
     }
-    @name = parse_name
-    @marker = parse_marker
+    @name = Player.parse_name
+    @marker = Player.parse_marker
     @@player_number += 1
   end
 
-  def parse_name
+  def self.parse_name
     print "Player #{@@player_number}, please enter your name: "
     gets.chomp
   end
 
-  def parse_marker
+  def self.parse_marker
     print "Hello #{@name}, please enter a single character to serve as a marker for your chosen spaces: "
     while (marker = gets.chomp)
       break if marker.length == 1 && !@@taken_markers.include?(marker)
@@ -33,6 +33,10 @@ class Player
     puts "Thank you!\n\n"
     @@taken_markers << marker
     marker
+  end
+
+  def self.player_number
+    @@player_number
   end
 
   def update_my_positions(row, column, board_size)
