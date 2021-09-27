@@ -162,6 +162,38 @@ describe Player do
   end
 
   describe '#check_winner' do
+    let(:board_size) { 3 }
+    subject(:player_win) { described_class.new(board_size) }
+    before do
+      allow(described_class).to receive(:parse_name).and_return('Dan')
+      allow(described_class).to receive(:parse_marker).and_return('X')
+    end
+
+    context 'when player has 3 successive positions' do
+      before do
+        player_win.instance_variable_set(
+          :@my_positions,
+          { rows: [0, 1, 2], columns: [3, 0, 0], diag: 0, anti_diag: 0 }
+        )
+      end
+      it 'returns true' do
+        win_check = player_win.check_winner(board_size)
+        expect(win_check).to be true
+      end
+    end
+
+    context 'when player does not have 3 successive positions' do
+      before do
+        player_win.instance_variable_set(
+          :@my_positions,
+          { rows: [0, 1, 2], columns: [2, 0, 2], diag: 2, anti_diag: 1 }
+        )
+      end
+      it 'returns false' do
+        win_check = player_win.check_winner(board_size)
+        expect(win_check).to be false
+      end
+    end
   end
 
   describe '#reset' do
