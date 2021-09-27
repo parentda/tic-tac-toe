@@ -9,12 +9,12 @@ class Board
     @positions = Array.new(@board_size) { Array.new(@board_size) }
   end
 
-  def validate_move(player, board_position)
+  def validate_move(marker, board_position)
     row = board_position / @board_size
     column = board_position % @board_size
 
     if @positions[row][column].nil?
-      @positions[row][column] = player.marker
+      @positions[row][column] = marker
       [row, column]
     else
       false

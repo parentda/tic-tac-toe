@@ -31,7 +31,7 @@ class Game
 
   def user_move(player)
     while (move = gets.chomp.to_i)
-      row_col = @board.validate_move(player, move - 1) if move.between?(
+      row_col = @board.validate_move(player.marker, move - 1) if move.between?(
         @board_limits[0],
         @board_limits[1]
       )
