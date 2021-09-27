@@ -63,16 +63,20 @@ describe Player do
   end
 
   describe '.update_taken_markers' do
-    context 'when '
-    xit 'adds valid marker to @@taken_markers' do
-      expect { input_marker.parse_marker }.to change {
-        input_marker.taken_markers.length
-      }.by(1)
-    end
+    subject(:update_markers) { described_class }
 
-    xit 'returns valid marker' do
-      valid_marker = input_marker.parse_marker
-      expect(valid_marker).to eq(valid_input)
+    context 'when a valid marker is given' do
+      let(:input) { 'X' }
+      it 'adds marker to @@taken_markers' do
+        expect { update_markers.update_taken_markers(input) }.to change {
+          update_markers.taken_markers.length
+        }.by(1)
+      end
+
+      it 'returns marker' do
+        valid_marker = update_markers.update_taken_markers(input)
+        expect(valid_marker).to eq(input)
+      end
     end
   end
 end
