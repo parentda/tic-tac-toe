@@ -73,6 +73,92 @@ describe Player do
   end
 
   describe '#update_my_positions' do
+    let(:board_size) { 3 }
+    subject(:player_positions) { described_class.new(board_size) }
+    before do
+      allow(described_class).to receive(:parse_name).and_return('Dan')
+      allow(described_class).to receive(:parse_marker).and_return('X')
+    end
+
+    context 'when a move is played that is on both the diag and anti-diag' do
+      it 'increases rows, columns, diag, and anti-diag by 1' do
+        row = 1
+        col = 1
+        expect {
+          player_positions.update_my_positions(row, col, board_size)
+        }.to change { player_positions.my_positions[:rows][row] }.by(
+          1
+        ).and change { player_positions.my_positions[:columns][col] }.by(
+                           1
+                         ).and change { player_positions.my_positions[:diag] }
+                                            .by(1).and change {
+                                                             player_positions
+                                                               .my_positions[
+                                                               :anti_diag
+                                                             ]
+                                                           }.by(1)
+      end
+    end
+
+    context 'when a move is played that is on only the diag' do
+      it 'increases rows, columns, and diag by 1' do
+        row = 0
+        col = 0
+        expect {
+          player_positions.update_my_positions(row, col, board_size)
+        }.to change { player_positions.my_positions[:rows][row] }.by(
+          1
+        ).and change { player_positions.my_positions[:columns][col] }.by(
+                           1
+                         ).and change { player_positions.my_positions[:diag] }
+                                            .by(1).and change {
+                                                             player_positions
+                                                               .my_positions[
+                                                               :anti_diag
+                                                             ]
+                                                           }.by(0)
+      end
+    end
+
+    context 'when a move is played that is on only the anti-diag' do
+      it 'increases rows, columns, and anti-diag by 1' do
+        row = 0
+        col = 2
+        expect {
+          player_positions.update_my_positions(row, col, board_size)
+        }.to change { player_positions.my_positions[:rows][row] }.by(
+          1
+        ).and change { player_positions.my_positions[:columns][col] }.by(
+                           1
+                         ).and change { player_positions.my_positions[:diag] }
+                                            .by(0).and change {
+                                                             player_positions
+                                                               .my_positions[
+                                                               :anti_diag
+                                                             ]
+                                                           }.by(1)
+      end
+    end
+
+    context 'when a move is played that on enither the diag or anti-diag' do
+      it 'increases rows and columns only' do
+        row = 0
+        col = 1
+        expect {
+          player_positions.update_my_positions(row, col, board_size)
+        }.to change { player_positions.my_positions[:rows][row] }.by(
+          1
+        ).and change { player_positions.my_positions[:columns][col] }.by(
+                           1
+                         ).and change { player_positions.my_positions[:diag] }
+                                            .by(0).and change {
+                                                             player_positions
+                                                               .my_positions[
+                                                               :anti_diag
+                                                             ]
+                                                           }.by(0)
+      end
+    end
   end
 
   describe '#check_winner' do
