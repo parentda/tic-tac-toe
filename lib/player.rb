@@ -31,12 +31,20 @@ class Player
       print 'Please re-enter your marker choice and ensure that it is a single character that is not already in use: '
     end
     puts "Thank you!\n\n"
-    @@taken_markers << marker
-    marker
+    update_taken_markers(marker)
   end
 
   def self.player_number
     @@player_number
+  end
+
+  def self.taken_markers
+    @@taken_markers
+  end
+
+  def self.update_taken_markers(marker)
+    @@taken_markers << marker
+    marker
   end
 
   def update_my_positions(row, column, board_size)
