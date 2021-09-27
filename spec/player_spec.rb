@@ -21,13 +21,13 @@ describe Player do
     let(:error_message) do
       'Please re-enter your marker choice and ensure that it is a single character that is not already in use: '
     end
+    before do
+      allow(input_marker).to receive(:puts)
+      allow(input_marker).to receive(:print)
+    end
 
     context 'when user inputs a valid marker' do
-      before do
-        allow(input_marker).to receive(:puts)
-        allow(input_marker).to receive(:print)
-        allow(input_marker).to receive(:gets).and_return('X')
-      end
+      before { allow(input_marker).to receive(:gets).and_return('X') }
 
       it 'stops loop and does not display error message' do
         expect(input_marker).not_to receive(:print).with(error_message)
@@ -36,11 +36,7 @@ describe Player do
     end
 
     context 'when user inputs an invalid marker once, then a valid marker' do
-      before do
-        allow(input_marker).to receive(:puts)
-        allow(input_marker).to receive(:print)
-        allow(input_marker).to receive(:gets).and_return('X', 'Y')
-      end
+      before { allow(input_marker).to receive(:gets).and_return('X', 'Y') }
 
       it 'stops loop and does not display error message' do
         expect(input_marker).to receive(:print).with(error_message).once
@@ -49,11 +45,7 @@ describe Player do
     end
 
     context 'when user inputs an invalid marker twice, then a valid marker' do
-      before do
-        allow(input_marker).to receive(:puts)
-        allow(input_marker).to receive(:print)
-        allow(input_marker).to receive(:gets).and_return('X', 'Y', 'Z')
-      end
+      before { allow(input_marker).to receive(:gets).and_return('X', 'Y', 'Z') }
 
       it 'stops loop and does not display error message' do
         expect(input_marker).to receive(:print).with(error_message).twice
@@ -78,5 +70,14 @@ describe Player do
         expect(valid_marker).to eq(input)
       end
     end
+  end
+
+  describe '#update_my_positions' do
+  end
+
+  describe '#check_winner' do
+  end
+
+  describe '#reset' do
   end
 end
