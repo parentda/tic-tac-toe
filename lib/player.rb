@@ -47,6 +47,11 @@ class Player
     marker
   end
 
+  def self.reset
+    @@player_number = 1
+    @@taken_markers = []
+  end
+
   def update_my_positions(row, column, board_size)
     @my_positions[:rows][row] += 1
     @my_positions[:columns][column] += 1
@@ -56,10 +61,5 @@ class Player
 
   def check_winner(board_size)
     @my_positions.values.flatten.include?(board_size)
-  end
-
-  def self.reset
-    @@player_number = 1
-    @@taken_markers = []
   end
 end

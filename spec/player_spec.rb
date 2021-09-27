@@ -72,6 +72,26 @@ describe Player do
     end
   end
 
+  describe '.reset' do
+    let(:board_size) { 3 }
+    subject(:players) { described_class }
+    before do
+      allow(players).to receive(:parse_name).and_return('Dan')
+      allow(players).to receive(:parse_marker).and_return('X')
+    end
+
+    context 'when resetting Player class' do
+      it 'sets @@player_number to 1 and @@taken_markers to []' do
+        test = players.new(board_size)
+        expect(players.player_number).to be > 1
+        expect(players.taken_markers.length).to be > 0
+        players.reset
+        expect(players.player_number).to eq(1)
+        expect(players.taken_markers).to eq([])
+      end
+    end
+  end
+
   describe '#update_my_positions' do
     let(:board_size) { 3 }
     subject(:player_positions) { described_class.new(board_size) }
@@ -194,8 +214,5 @@ describe Player do
         expect(win_check).to be false
       end
     end
-  end
-
-  describe '#reset' do
   end
 end
