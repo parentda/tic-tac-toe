@@ -3,7 +3,7 @@
 require_relative 'displayable'
 class Game
   include Display
-  attr_accessor :board
+  attr_accessor :board, :total_moves
 
   def initialize(num_players, board_size)
     @num_players = num_players
