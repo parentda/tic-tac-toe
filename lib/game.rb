@@ -29,9 +29,9 @@ class Game
     game_tie_message unless @game_win
   end
 
-  def user_move(player)
+  def user_move(player, board)
     while (move = gets.chomp.to_i)
-      row_col = @board.validate_move(player.marker, move - 1) if move.between?(
+      row_col = board.validate_move(player.marker, move - 1) if move.between?(
         @board_limits[0],
         @board_limits[1]
       )
@@ -44,7 +44,7 @@ class Game
   def user_turn
     current_player = @players[@current_player_index]
     next_turn_message(current_player)
-    row_col = user_move(current_player)
+    row_col = user_move(current_player, @board)
     current_player.update_my_positions(row_col[0], row_col[1], @board_size)
     puts "\n#{@board.draw_board}\n\n"
 
