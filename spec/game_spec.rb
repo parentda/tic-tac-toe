@@ -28,10 +28,6 @@ describe Game do
 
   describe '#user_move' do
     subject(:game) { described_class.new(2, 3) }
-  end
-
-  describe '#user_turn' do
-    subject(:game) { described_class.new(2, 3) }
     let(:player) { instance_double(Player, marker: 'X') }
     let(:board) { instance_double(Board) }
     let(:valid_input) { '6' }
@@ -80,5 +76,40 @@ describe Game do
   end
 
   describe '#user_turn' do
+    subject(:game) { described_class.new(2, 3) }
+    let(:player) { instance_double(Player, marker: 'X') }
+    before do
+      game.instance_variable_set(:@players, [player, player])
+      allow(game).to receive(:user_move).and_return([1, 2])
+      allow(game).to receive(:next_turn_message)
+      allow(game).to receive(:puts)
+      allow(game).to receive(:game_win_message)
+      allow(player).to receive(:update_my_positions)
+    end
+
+    context 'when a turn is made and the game continues' do
+      it 'increases total move count by 1' do
+        expect { game.user_turn }.to change { game.total_moves }.by(1)
+      end
+
+      it 'changes current player index' do
+        expect { game.user_turn }.to change {
+          game.instance_variable_get(:@current_player_index)
+        }.by(1)
+      end
+    end
+
+    context 'when a turn is made and the current player wins' do
+      it 'increases total move count by 1' do
+        expect { game.user_turn }.to change { game.total_moves }.by(1)
+      end
+
+      it 'returns game win message' do
+        game.instance_variable_set(:@total_moves, 6)
+        allow(player).to receive(:check_winner).and_return(true)
+        expect(game).to receive(:game_win_message).once
+        game.user_turn
+      end
+    end
   end
 end
